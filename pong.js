@@ -15,6 +15,13 @@ const app = express()						// Creating a variable: app, to receive and respond t
 	, io = Io(server)
 	;
 
+
+let speed = 1;
+let leftPosition = 44;
+let rightPosition = 44;
+let paddleHeight = 12;
+let leftSpeed = 0;
+let rightSpeed = 0;
 let players = [];
 
 /* MIDDLEWARE TO LOOK AT THE REQUEST BEFORE HANDLING IT */
@@ -42,7 +49,14 @@ function startSocketServer() {
 		}
 
 		if(players.length === 2) {
-			socket.emit('start', 'startgame');
+			socket.emit('start', {
+				speed,
+				leftPosition,
+				rightPosition,
+				paddleHeight,
+				leftSpeed,
+				rightSpeed
+			});
 		}
 
 		if(players.length === 1) {
@@ -52,6 +66,31 @@ function startSocketServer() {
 		socket.on('disconnect', function(socket) {
 			players = players.filter(player => player.id !== socket.id);
 
+		});
+		
+		socket.on('leftPaddleUp', function() {
+			leftSpeed = -1*speed;
+			io.emit('leftPaddleUp', {leftSpeed});
+		});
+		socket.on('leftPaddleStop', function() {
+			leftSpeed = 0;
+			io.emit('leftPaddleStop', {leftSpeed});
+		});
+		socket.on('leftPaddleDown', function() {
+			leftSpeed = Speed;
+			io.emit('leftPaddleDown', {leftSpeed});
+		});
+		socket.on('rightPaddleUp', function() {
+			rightSpeed = -1*speed;
+			io.emit('rightPaddleUp', {rightSpeed});
+		});
+		socket.on('rightPaddleStop', function() {
+			rightSpeed = 0;
+			io.emit('rightPaddleStop', {rightSpeed});
+		});
+		socket.on('rightPaddleDown', function() {
+			rightSpeed = Speed;
+			io.emit('rightPaddleDown', {rightSpeed});
 		});
 
 	});
