@@ -77,7 +77,7 @@ function startSocketServer() {
 			io.emit('leftPaddleStop', {leftSpeed});
 		});
 		socket.on('leftPaddleDown', function() {
-			leftSpeed = Speed;
+			leftSpeed = speed;
 			io.emit('leftPaddleDown', {leftSpeed});
 		});
 		socket.on('rightPaddleUp', function() {
@@ -89,7 +89,7 @@ function startSocketServer() {
 			io.emit('rightPaddleStop', {rightSpeed});
 		});
 		socket.on('rightPaddleDown', function() {
-			rightSpeed = Speed;
+			rightSpeed = speed;
 			io.emit('rightPaddleDown', {rightSpeed});
 		});
 
