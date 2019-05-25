@@ -26,6 +26,7 @@ let players = [];
 let ballSpeed = 1;
 let angle;
 let direction;
+let ballPosition = {x: 50, y: 50};
 
 /* MIDDLEWARE TO LOOK AT THE REQUEST BEFORE HANDLING IT */
 app.use(bodyParser.json({					// Limiting the amount of data the client can send to 50mb
