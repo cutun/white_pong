@@ -42,17 +42,8 @@ app.use(bodyParser.urlencoded({ 			// Allowing the body parser to parse many dif
 app.get('/', (req, res, next) => {			// Recieving a request from the client when there is no path
     request.get('https://minh.wisen.space/pong.html').pipe(res);
 });
-
-
-function startSocketServer() {
-    io.on('connection', function (socket) {
-        players.push(socket);
-        if (players.length > 2) {
-            socket.emit('goaway', 'go away');
-        }
-
-        if (players.length === 2) {
-            const π = Math.PI;
+function initialize() {
+	const π = Math.PI;
             direction = Math.random() <= 0.5 ? -1 : 1; //RANDOMLY CHOOSE A NUMBER THAT IS -1 or 1
             angle = (Math.random() - 0.5) * 2 * π / 3;  //RANDOMLY CHOOSE A NUMBER THAT IS BETWEEN -pi/4 and pi/4
             io.emit('start', {
@@ -68,6 +59,17 @@ function startSocketServer() {
                 ballSize,
                 ballPosition
             });
+}
+
+function startSocketServer() {
+    io.on('connection', function (socket) {
+        players.push(socket);
+        if (players.length > 2) {
+            socket.emit('goaway', 'go away');
+        }
+
+        if (players.length === 2) {
+            initialize();
         }
 
         if (players.length === 1) {
@@ -108,7 +110,15 @@ function startSocketServer() {
         socket.on('rightPaddleDown', function () {
             rightSpeed = speed;
             io.emit('rightPaddleDown', { rightSpeed });
-        });
+		});
+		
+		socket.on('rightBallPass', function(){
+			initialize();
+		});
+
+		socket.on('rightBallPass', function(){
+			initialize();
+		});
 
     });
 }
