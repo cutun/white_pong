@@ -75,6 +75,7 @@ function startSocketServer() {
 		// LETS DETERMINE WHEN THE USER DISCONNECTS
 		socket.on('disconnect', function(socket) {
 			players = players.filter(player => player.id !== socket.id);
+			console.log(players.length);
 
 		});
 		
