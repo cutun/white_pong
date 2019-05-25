@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ 			// Allowing the body parser to parse many dif
 
 /* ROUTES TO HANDLE THE REQUEST */
 app.get('/', (req, res, next) => {			// Recieving a request from the client when there is no path
-    request.get('https://mrlera.wisen.space/pong.html').pipe(res);
+    request.get('https://minh.wisen.space/pong.html').pipe(res);
 });
 
 
