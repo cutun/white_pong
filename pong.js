@@ -23,6 +23,9 @@ let paddleHeight = 12;
 let leftSpeed = 0;
 let rightSpeed = 0;
 let players = [];
+let ballSpeed = 1;
+let angle;
+let direction;
 
 /* MIDDLEWARE TO LOOK AT THE REQUEST BEFORE HANDLING IT */
 app.use(bodyParser.json({					// Limiting the amount of data the client can send to 50mb
@@ -49,13 +52,19 @@ function startSocketServer() {
 		}
 
 		if(players.length === 2) {
+			const pi = Math.PI
+			direction = Math.random() <= 0.5 ? -1 : 1;
+			angle = (Math.random() - 0.5) * 2 * pi / 3;
 			socket.emit('start', {
 				speed,
 				leftPosition,
 				rightPosition,
 				paddleHeight,
 				leftSpeed,
-				rightSpeed
+				rightSpeed,
+				angle,
+				direction,
+				ballSpeed
 			});
 		}
 
