@@ -65,7 +65,8 @@ function startSocketServer() {
 				rightSpeed,
 				angle,
 				direction,
-				ballSpeed
+				ballSpeed,
+				ballSize
 			});
 		}
 
