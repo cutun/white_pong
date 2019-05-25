@@ -46,7 +46,7 @@ app.get('/', (req, res, next) => {
 
 function startSocketServer() {
 	io.on('connection', function(socket) {
-		console.log(player.length);
+		console.log(players.length);
 		players.push(socket);
 		if(players.length > 2) {
 			socket.emit('goaway', 'go away');
