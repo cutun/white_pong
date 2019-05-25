@@ -24,8 +24,7 @@ let leftSpeed = 0;
 let rightSpeed = 0;
 let players = [];
 let ballSpeed = 1;
-let angle;
-let direction;
+let ballSize = 3;
 let ballPosition = {x: 50, y: 50};
 
 /* MIDDLEWARE TO LOOK AT THE REQUEST BEFORE HANDLING IT */
