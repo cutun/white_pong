@@ -23,7 +23,6 @@ let rightSpeed = 0;
 let ballSpeed = 1;
 let ballSize = 3;
 let ballPosition = { x: 50, y: 50 };
-let score = {left: 0, right: 0};
 
 let angle;
 let direction;
@@ -41,39 +40,34 @@ app.use(bodyParser.urlencoded({ 			// Allowing the body parser to parse many dif
 
 /* ROUTES TO HANDLE THE REQUEST */
 app.get('/', (req, res, next) => {			// Recieving a request from the client when there is no path
-    request.get('https://minh.wisen.space/pong.html').pipe(res);
+    request.get('https://mrlera.wisen.space/pong.html').pipe(res);
 });
 
 
 function startSocketServer() {
     io.on('connection', function (socket) {
-		players.push(socket);
-		
-		function initialize() {
-			const π = Math.PI;
-					direction = Math.random() <= 0.5 ? -1 : 1; //RANDOMLY CHOOSE A NUMBER THAT IS -1 or 1
-					angle = (Math.random() - 0.5) * 2 * π / 3;  //RANDOMLY CHOOSE A NUMBER THAT IS BETWEEN -pi/4 and pi/4
-					io.emit('start', {
-						speed,
-						leftPosition,
-						rightPosition,
-						paddleHeight,
-						leftSpeed,
-						rightSpeed,
-						angle,
-						direction,
-						ballSpeed,
-						ballSize,
-						ballPosition
-					});
-		}
-
+        players.push(socket);
         if (players.length > 2) {
             socket.emit('goaway', 'go away');
         }
 
         if (players.length === 2) {
-            initialize();
+            const π = Math.PI;
+            direction = Math.random() <= 0.5 ? -1 : 1; //RANDOMLY CHOOSE A NUMBER THAT IS -1 or 1
+            angle = (Math.random() - 0.5) * 2 * π / 3;  //RANDOMLY CHOOSE A NUMBER THAT IS BETWEEN -pi/4 and pi/4
+            io.emit('start', {
+                speed,
+                leftPosition,
+                rightPosition,
+                paddleHeight,
+                leftSpeed,
+                rightSpeed,
+                angle,
+                direction,
+                ballSpeed,
+                ballSize,
+                ballPosition
+            });
         }
 
         if (players.length === 1) {
@@ -82,8 +76,8 @@ function startSocketServer() {
 
         // LETS DETERMINE WHEN THE USER DISCONNECTS
         socket.on('disconnect', function () {
-			score = {left: 0, right: 0};
             players = players.filter(player => player.id !== socket.id);
+            console.log(players.length);
         });
 
         socket.on('leftPaddleUp', function () {
@@ -114,17 +108,7 @@ function startSocketServer() {
         socket.on('rightPaddleDown', function () {
             rightSpeed = speed;
             io.emit('rightPaddleDown', { rightSpeed });
-		});
-		
-		socket.on('rightBallPass', function(){
-			score.left++;
-			initialize();
-		});
-
-		socket.on('rightBallPass', function(){
-			score.right++;
-			initialize();
-		});
+        });
 
     });
 }
